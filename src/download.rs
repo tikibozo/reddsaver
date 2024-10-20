@@ -640,9 +640,11 @@ async fn get_media(data: &PostData) -> Result<Vec<SupportedMedia>, ReddSaverErro
                 // to get the URL. gfycat likes to use lowercase names in their posts
                 // but the ID for the GIF is Pascal-cased. The case-conversion info
                 // can only be obtained from the API at the moment
-                if let Some(supported_media) = gfy_to_mp4(url).await? {
-                    media.push(supported_media);
-                }
+                
+                // Gfycat is shut down - let's maybe not.
+                //if let Some(supported_media) = gfy_to_mp4(url).await? {
+                //    media.push(supported_media);
+                //}
             }
         }
 
