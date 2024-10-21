@@ -5,6 +5,8 @@ I don't know rust and I'm not trying to maintain this, I just wanted it working 
 Error: ReqwestError(reqwest::Error { kind: Request, url: Url { scheme: "https", cannot_be_a_base: false, username: "", password: None, host: Some(Domain("api.gfycat.com")), port: None, path: "/v1/gfycats/someblahblah", query: None, fragment: None }, source: hyper::Error(Connect, ConnectError("dns error", Custom { kind: Uncategorized, error: "failed to lookup address information: nodename nor servname provided, or not known" })) })
 ```
 
+Image is on dockerhub: https://hub.docker.com/repository/docker/tikibozo/reddsaver/general / image: tikibozo/reddsaver:latest 
+
 ==========
 
 # Reddsaver ![build](https://github.com/manojkarthick/reddsaver/workflows/build/badge.svg) [![Crates.io](https://img.shields.io/crates/v/reddsaver.svg)](https://crates.io/crates/reddsaver)
