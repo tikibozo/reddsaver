@@ -34,9 +34,6 @@ static REDDIT_GALLERY_PATH: &str = "gallery";
 static IMGUR_DOMAIN: &str = "imgur.com";
 static IMGUR_SUBDOMAIN: &str = "i.imgur.com";
 
-static GFYCAT_DOMAIN: &str = "gfycat.com";
-static GFYCAT_API_PREFIX: &str = "https://api.gfycat.com/v1/gfycats";
-
 static REDGIFS_DOMAIN: &str = "redgifs.com";
 static REDGIFS_API_PREFIX: &str = "https://api.redgifs.com/v1/gfycats";
 
@@ -455,10 +452,9 @@ async fn download_media(file_name: &str, url: &str) -> Result<bool, ReddSaverErr
     Ok(status)
 }
 
-/// Convert Gfycat/Redgifs GIFs into mp4 URLs for download
+/// Convert Redgifs GIFs into mp4 URLs for download
 async fn gfy_to_mp4(url: &str) -> Result<Option<SupportedMedia>, ReddSaverError> {
-    let api_prefix =
-        if url.contains(GFYCAT_DOMAIN) { GFYCAT_API_PREFIX } else { REDGIFS_API_PREFIX };
+    let api_prefix = { REDGIFS_API_PREFIX };
     let maybe_media_id = url.split("/").last();
 
     if let Some(media_id) = maybe_media_id {
@@ -466,9 +462,9 @@ async fn gfy_to_mp4(url: &str) -> Result<Option<SupportedMedia>, ReddSaverError>
         debug!("GFY API URL: {}", api_url);
         let client = reqwest::Client::new();
 
-        // talk to gfycat API and get GIF information
+        // talk to redgif API and get GIF information
         let response = client.get(&api_url).send().await?;
-        // if the gif is not available anymore, Gfycat might send
+        // if the gif is not available anymore, redgifs might send
         // a 404 response. Proceed to get the mp4 URL only if the
         // response was HTTP 200
         if response.status() == StatusCode::OK {
@@ -627,9 +623,9 @@ async fn get_media(data: &PostData) -> Result<Vec<SupportedMedia>, ReddSaverErro
             }
         }
 
-        // gfycat and redgifs
-        if url.contains(GFYCAT_DOMAIN) || url.contains(REDGIFS_DOMAIN) {
-            // if the Gfycat/Redgifs URL points directly to the mp4, download as is
+        // redgifs
+        if url.contains(REDGIFS_DOMAIN) {
+            // if the Redgifs URL points directly to the mp4, download as is
             if url.ends_with(MP4_EXTENSION) {
                 let supported_media = SupportedMedia {
                     components: vec![String::from(url)],
@@ -637,15 +633,14 @@ async fn get_media(data: &PostData) -> Result<Vec<SupportedMedia>, ReddSaverErro
                 };
                 media.push(supported_media);
             } else {
-                // if the provided link is a gfycat post link, use the gfycat API
-                // to get the URL. gfycat likes to use lowercase names in their posts
+                // if the provided link is a redgifs post link, use the API
+                // to get the URL. redgifs likes to use lowercase names in their posts
                 // but the ID for the GIF is Pascal-cased. The case-conversion info
                 // can only be obtained from the API at the moment
                 
-                // Gfycat is shut down - let's maybe not.
-                //if let Some(supported_media) = gfy_to_mp4(url).await? {
-                //    media.push(supported_media);
-                //}
+                if let Some(supported_media) = gfy_to_mp4(url).await? {
+                    media.push(supported_media);
+                }
             }
         }
 

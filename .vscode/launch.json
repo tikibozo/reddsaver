@@ -21,7 +21,6 @@
             },
             "args": [
                 "-e","/Users/jon/reddsaver/reddsaver.env",
-                "-r",
                 "-d","/Users/jon/reddsaver/data"],
             "cwd": "${workspaceFolder}"
         }
