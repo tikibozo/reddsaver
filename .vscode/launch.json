@@ -12,8 +12,7 @@
                 "args": [
                     "build",
                     "--bin=reddsaver",
-                    "--package=reddsaver",
-                    "--target=x86_64-unknown-linux-gnu"
+                    "--package=reddsaver"
                 ],
                 "filter": {
                     "name": "reddsaver",

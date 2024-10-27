@@ -20,6 +20,7 @@ use crate::user::{ListingType, User};
 use crate::utils::{check_path_present, check_url_is_mp4};
 
 static JPG_EXTENSION: &str = "jpg";
+static JPEG_EXTENSION: &str = "jpeg";
 static PNG_EXTENSION: &str = "png";
 static GIF_EXTENSION: &str = "gif";
 static GIFV_EXTENSION: &str = "gifv";
@@ -564,7 +565,7 @@ async fn get_media(data: &PostData) -> Result<Vec<SupportedMedia>, ReddSaverErro
         if url.contains(REDDIT_IMAGE_SUBDOMAIN) {
             // if the URL uses the reddit image subdomain and if the extension is
             // jpg, png or gif, then we can use the URL as is.
-            if url.ends_with(JPG_EXTENSION) || url.ends_with(PNG_EXTENSION) {
+            if url.ends_with(JPG_EXTENSION) || url.ends_with(JPEG_EXTENSION) || url.ends_with(PNG_EXTENSION) {
                 let translated = String::from(url);
                 let supported_media = SupportedMedia {
                     components: vec![translated],
@@ -699,7 +700,7 @@ async fn get_media(data: &PostData) -> Result<Vec<SupportedMedia>, ReddSaverErro
                 media.push(supported_media);
             }
             if url.contains(IMGUR_SUBDOMAIN)
-                && (url.ends_with(PNG_EXTENSION) || url.ends_with(JPG_EXTENSION))
+                && (url.ends_with(PNG_EXTENSION) || url.ends_with(JPG_EXTENSION) || url.ends_with(JPEG_EXTENSION))
             {
                 let supported_media = SupportedMedia {
                     components: vec![String::from(url)],
