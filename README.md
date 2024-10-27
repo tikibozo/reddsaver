@@ -1,9 +1,11 @@
-This fork of reddsaver simply comments out the attempt to download from the now defunct gfycat URLs. 
+This fork of reddsaver simply removes the attempt to download from the now defunct gfycat URLs, and treats *.jpeg files like *.jpg files. 
 
-I don't know rust and I'm not trying to maintain this, I just wanted it working again. If you've also got saved items targeting gfycat (that don't show up in the reddit UI) and are hitting the following error, this may work for you: 
+I don't know rust and I'm not necessarily trying to maintain this, I just wanted it working again. If you've also got saved items targeting gfycat (that don't show up in the reddit UI) and are hitting the following error, this may work for you: 
 ```
 Error: ReqwestError(reqwest::Error { kind: Request, url: Url { scheme: "https", cannot_be_a_base: false, username: "", password: None, host: Some(Domain("api.gfycat.com")), port: None, path: "/v1/gfycats/someblahblah", query: None, fragment: None }, source: hyper::Error(Connect, ConnectError("dns error", Custom { kind: Uncategorized, error: "failed to lookup address information: nodename nor servname provided, or not known" })) })
 ```
+
+PRs welcome if there's something else you'd like to fix.
 
 Image is on dockerhub: https://hub.docker.com/repository/docker/tikibozo/reddsaver/general / image: tikibozo/reddsaver:latest 
 
